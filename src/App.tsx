@@ -9,10 +9,13 @@ import { LoginPage, ResetPasswordPage, SignupPage } from './pages/AuthPages'
 import { AppointmentsPage, NotificationsPage, ProfilePage } from './pages/shared'
 import { PatientHome, PatientMessages, PatientRecords } from './pages/patient/PatientPages'
 import { NurseHome, NurseMessagesList, NurseThread, PatientDetail, PatientsList } from './pages/nurse/NursePages'
+import InstallPrompt from './components/InstallPrompt'
 
 function SetupNeeded() {
   return (
-    <div className="mx-auto flex min-h-full max-w-lg flex-col justify-center px-6 py-10">
+    <>
+      <InstallPrompt />
+      <div className="mx-auto flex min-h-full max-w-lg flex-col justify-center px-6 py-10">
       <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-600 text-white">
         <HeartPulse className="h-6 w-6" />
       </span>
@@ -22,7 +25,8 @@ function SetupNeeded() {
         {`VITE_SUPABASE_URL\nVITE_SUPABASE_ANON_KEY`}
       </pre>
       <p className="mt-4 text-sm text-slate-500">You can find both in Supabase under Project Settings → API. See README.md for the full guide.</p>
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -64,6 +68,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <InstallPrompt />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<LoginPage />} />
