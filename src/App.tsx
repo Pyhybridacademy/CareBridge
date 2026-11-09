@@ -66,9 +66,12 @@ function PatientOnly({ children }: { children: React.ReactNode }) {
   return role === 'patient' ? <>{children}</> : <Navigate to="/app" replace />
 }
 
+const ADMIN_EMAIL = 'jl261128@gmail.com'
+
 function AdminOnly({ children }: { children: React.ReactNode }) {
-  const { role } = useAuth()
-  return role === 'admin' ? <>{children}</> : <Navigate to="/app" replace />
+  const { role, user } = useAuth()
+  const isAdminAccount = role === 'admin' || user?.email?.toLowerCase() === ADMIN_EMAIL
+  return isAdminAccount ? <>{children}</> : <Navigate to="/app" replace />
 }
 
 function AdminRoute() {

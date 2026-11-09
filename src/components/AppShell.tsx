@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Bell, CalendarDays, ClipboardList, Home, MessageCircle, User, Users, HeartPulse } from 'lucide-react'
+import { Bell, CalendarDays, ClipboardList, Home, MessageCircle, User, Users, HeartPulse, Settings } from 'lucide-react'
 import { useAuth } from '../lib/auth'
 import { supabase } from '../lib/supabase'
 import InstallPrompt from './InstallPrompt'
@@ -19,6 +19,7 @@ interface Tab {
 export default function AppShell() {
   const { user, role, profile } = useAuth()
   const navigate = useNavigate()
+  const isAdminAccount = user?.email?.toLowerCase() === 'jl261128@gmail.com' || role === 'admin'
   const location = useLocation()
   const [unreadMsgs, setUnreadMsgs] = useState(0)
   const [unreadNotifs, setUnreadNotifs] = useState(0)
@@ -97,7 +98,18 @@ export default function AppShell() {
             </p>
           </div>
         </div>
-        <button
+        <div className="flex items-center gap-1">
+          {isAdminAccount && (
+            <button
+              onClick={() => navigate('/admin')}
+              className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-50 dark:text-teal-300 dark:hover:bg-teal-950"
+              aria-label="Open management"
+            >
+              <Settings className="h-4 w-4" />
+              Manage
+            </button>
+          )}
+          <button
           onClick={() => navigate('/app/notifications')}
           className="relative rounded-full p-2 hover:bg-slate-100 dark:hover:bg-slate-800"
           aria-label={`Notifications${unreadNotifs ? `, ${unreadNotifs} unread` : ''}`}
@@ -108,7 +120,8 @@ export default function AppShell() {
               {unreadNotifs > 9 ? '9+' : unreadNotifs}
             </span>
           )}
-        </button>
+          </button>
+        </div>
       </header>
 
       <InstallPrompt />
