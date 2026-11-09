@@ -73,7 +73,7 @@ export default function AppShell() {
             <HeartPulse className="h-5 w-5" />
           </span>
           <div className="leading-tight">
-            <p className="font-semibold">CareConnect</p>
+            <p className="font-semibold">CareBridge</p>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {role === 'nurse' ? 'Nurse' : 'Patient'} · {profile?.full_name || 'Welcome'}
             </p>

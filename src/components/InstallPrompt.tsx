@@ -18,7 +18,7 @@ function getPlatform() {
   return 'other' as const
 }
 
-/** Blocks browser use until CareConnect is installed, with platform-specific instructions. */
+/** Blocks browser use until CareBridge is installed, with platform-specific instructions. */
 export default function InstallPrompt() {
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null)
   const [installed, setInstalled] = useState(() => isStandalone())
@@ -52,20 +52,20 @@ export default function InstallPrompt() {
         <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-300">
           {isIos ? <Share className="h-7 w-7" /> : <Download className="h-7 w-7" />}
         </div>
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">CareConnect app</p>
-        <h1 id="install-title" className="mt-2 text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Install CareConnect to continue</h1>
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">CareBridge app</p>
+        <h1 id="install-title" className="mt-2 text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Install CareBridge to continue</h1>
         {isIos ? (
           <div className="mt-4 space-y-3 text-slate-600 dark:text-slate-300">
-            <p>CareConnect must be added to your Home Screen for the best experience.</p>
+            <p>CareBridge must be added to your Home Screen for the best experience.</p>
             <ol className="list-decimal space-y-2 pl-5 text-sm">
               <li>Tap the <strong>Share</strong> button in Safari.</li>
               <li>Scroll down and choose <strong>Add to Home Screen</strong>.</li>
-              <li>Tap <strong>Add</strong>, then open CareConnect from your Home Screen.</li>
+              <li>Tap <strong>Add</strong>, then open CareBridge from your Home Screen.</li>
             </ol>
           </div>
         ) : (
           <div className="mt-4 space-y-4 text-slate-600 dark:text-slate-300">
-            <p>Install the CareConnect app on your Android device to continue.</p>
+            <p>Install the CareBridge app on your Android device to continue.</p>
             <Button className="w-full" size="md" onClick={install} disabled={!deferred}>
               {deferred ? 'Install app' : 'Preparing install…'}
             </Button>

@@ -13,7 +13,7 @@ export default function Landing() {
         <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-600 text-white">
           <HeartPulse className="h-6 w-6" />
         </span>
-        <span className="text-xl font-bold">CareConnect</span>
+        <span className="text-xl font-bold">CareBridge</span>
       </div>
 
       <h1 className="mt-10 text-4xl font-bold leading-tight">

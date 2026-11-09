@@ -7,6 +7,8 @@ import { errMsg } from '../lib/format'
 import { Button, ErrorBanner, Field, Input, Select } from '../components/ui'
 import type { Role } from '../types'
 
+const APP_URL = 'https://carebridge-git-main-samuelsmar08-gmailcoms-projects.vercel.app'
+
 function AuthFrame({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col px-5 py-8 safe-top">
@@ -14,7 +16,7 @@ function AuthFrame({ title, children }: { title: string; children: React.ReactNo
         <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 text-white">
           <HeartPulse className="h-5 w-5" />
         </span>
-        <span className="text-lg font-bold">CareConnect</span>
+        <span className="text-lg font-bold">CareBridge</span>
       </Link>
       <h1 className="mb-5 text-2xl font-bold">{title}</h1>
       {children}
@@ -55,7 +57,7 @@ export function LoginPage() {
       setError('Enter your email above first, then tap “Forgot password”.')
       return
     }
-    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/reset-password` })
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${APP_URL}/reset-password` })
     if (err) setError(errMsg(err))
     else setInfo('If that email has an account, a reset link is on its way.')
   }
@@ -162,7 +164,7 @@ export function SignupPage() {
       email: f.email.trim(),
       password: f.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/app`,
+        emailRedirectTo: `${APP_URL}/app`,
         data: {
           role,
           full_name: f.full_name.trim(),
@@ -259,7 +261,7 @@ export function SignupPage() {
 
         <label className="flex items-start gap-3 text-sm">
           <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 h-5 w-5 accent-teal-600" />
-          <span>I agree that CareConnect may process my personal and health information to provide care communication services.</span>
+          <span>I agree that CareBridge may process my personal and health information to provide care communication services.</span>
         </label>
 
         <ErrorBanner message={error} />
