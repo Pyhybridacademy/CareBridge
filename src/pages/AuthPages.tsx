@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { HeartPulse, MailCheck } from 'lucide-react'
 import { supabase } from '../lib/supabase'
@@ -144,8 +144,16 @@ export function SignupPage() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmEmail, setConfirmEmail] = useState(false)
+  const [registrationEnabled, setRegistrationEnabled] = useState(true)
+
+  useEffect(() => {
+    supabase.from('site_settings').select('registration_enabled').eq('id', true).maybeSingle().then(({ data }) => {
+      if (data) setRegistrationEnabled(data.registration_enabled)
+    })
+  }, [])
 
   if (!loading && session) return <Navigate to="/app" replace />
+  if (!registrationEnabled) return <AuthFrame title="Registration is closed"><div className="rounded-2xl bg-white p-6 text-center shadow-sm dark:bg-slate-800/70"><p className="text-slate-600 dark:text-slate-300">New accounts are created by a CareBridge administrator.</p><Link to="/login" className="mt-4 inline-block font-semibold text-teal-700">Go to log in</Link></div></AuthFrame>
 
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF((p) => ({ ...p, [k]: e.target.value }))
 

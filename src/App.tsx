@@ -11,6 +11,7 @@ import { PatientHome, PatientMessages, PatientRecords } from './pages/patient/Pa
 import { NurseHome, NurseMessagesList, NurseThread, PatientDetail, PatientsList } from './pages/nurse/NursePages'
 import InstallPrompt from './components/InstallPrompt'
 import NotificationPermissionPrompt from './components/NotificationPermissionPrompt'
+import AdminDashboard from './pages/admin/AdminPages'
 
 function SetupNeeded() {
   return (
@@ -42,7 +43,7 @@ function RequireAuth() {
 
 function RoleHome() {
   const { role } = useAuth()
-  return role === 'nurse' ? <NurseHome /> : <PatientHome />
+  return role === 'admin' ? <AdminDashboard /> : role === 'nurse' ? <NurseHome /> : <PatientHome />
 }
 
 function RoleMessages() {
@@ -63,6 +64,11 @@ function NurseOnly({ children }: { children: React.ReactNode }) {
 function PatientOnly({ children }: { children: React.ReactNode }) {
   const { role } = useAuth()
   return role === 'patient' ? <>{children}</> : <Navigate to="/app" replace />
+}
+
+function AdminOnly({ children }: { children: React.ReactNode }) {
+  const { role } = useAuth()
+  return role === 'admin' ? <>{children}</> : <Navigate to="/app" replace />
 }
 
 export default function App() {
@@ -87,6 +93,7 @@ export default function App() {
             <Route path="records" element={<PatientOnly><PatientRecords /></PatientOnly>} />
             <Route path="patients" element={<NurseOnly><PatientsList /></NurseOnly>} />
             <Route path="patients/:id" element={<NurseOnly><PatientDetail /></NurseOnly>} />
+            <Route path="admin" element={<AdminOnly><AdminDashboard /></AdminOnly>} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
