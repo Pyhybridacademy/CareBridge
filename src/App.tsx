@@ -71,6 +71,13 @@ function AdminOnly({ children }: { children: React.ReactNode }) {
   return role === 'admin' ? <>{children}</> : <Navigate to="/app" replace />
 }
 
+function AdminRoute() {
+  const { session, role, loading } = useAuth()
+  if (loading) return <Spinner label="Opening CareBridge admin…" />
+  if (!session) return <Navigate to="/login" replace />
+  return <AdminOnly><AdminDashboard /></AdminOnly>
+}
+
 export default function App() {
   if (!configured) return <SetupNeeded />
   return (
@@ -83,6 +90,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/admin" element={<AdminRoute />} />
           <Route path="/app" element={<RequireAuth />}>
             <Route index element={<RoleHome />} />
             <Route path="messages" element={<RoleMessages />} />
