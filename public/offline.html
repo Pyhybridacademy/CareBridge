@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d9488" />
+    <title>CareConnect is offline</title>
+    <style>
+      body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; background: #f1f7f8; color: #0f2a30; text-align: center; padding: 24px; }
+      @media (prefers-color-scheme: dark) { body { background: #0b1a1e; color: #e3f1f3; } }
+      .card { max-width: 340px; }
+      h1 { font-size: 1.4rem; }
+      button { margin-top: 12px; padding: 12px 20px; font-size: 1rem; border: 0; border-radius: 12px; background: #0d9488; color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>You’re offline</h1>
+      <p>CareConnect needs an internet connection to load your messages and records. Check your connection and try again.</p>
+      <p style="font-size:.85rem;opacity:.7">Not for emergencies. Call your local emergency number.</p>
+      <button onclick="location.reload()">Try again</button>
+    </div>
+  </body>
+</html>
