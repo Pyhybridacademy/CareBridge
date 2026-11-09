@@ -10,11 +10,13 @@ import { AppointmentsPage, NotificationsPage, ProfilePage } from './pages/shared
 import { PatientHome, PatientMessages, PatientRecords } from './pages/patient/PatientPages'
 import { NurseHome, NurseMessagesList, NurseThread, PatientDetail, PatientsList } from './pages/nurse/NursePages'
 import InstallPrompt from './components/InstallPrompt'
+import NotificationPermissionPrompt from './components/NotificationPermissionPrompt'
 
 function SetupNeeded() {
   return (
     <>
       <InstallPrompt />
+      <NotificationPermissionPrompt />
       <div className="mx-auto flex min-h-full max-w-lg flex-col justify-center px-6 py-10">
       <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-600 text-white">
         <HeartPulse className="h-6 w-6" />
@@ -69,6 +71,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <InstallPrompt />
+        <NotificationPermissionPrompt />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<LoginPage />} />
