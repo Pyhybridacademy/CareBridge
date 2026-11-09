@@ -4,6 +4,8 @@ import { Bell, CalendarDays, ClipboardList, Home, MessageCircle, User, Users, He
 import { useAuth } from '../lib/auth'
 import { supabase } from '../lib/supabase'
 import InstallPrompt from './InstallPrompt'
+import NotificationPermissionPrompt from './NotificationPermissionPrompt'
+import { playNotificationSound } from '../lib/notification-sound'
 import { cx } from './ui'
 
 interface Tab {
@@ -34,10 +36,26 @@ export default function AppShell() {
       setUnreadNotifs(n.count ?? 0)
     }
     refresh()
+    const announce = (title: string, body: string) => {
+      playNotificationSound()
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        new Notification(title, { body, icon: '/pwa-192x192.png', tag: 'carebridge-update' })
+      }
+    }
+    const handleMessage = (payload: { new: { sender_name?: string; body?: string } }) => {
+      announce(`New message${payload.new.sender_name ? ` from ${payload.new.sender_name}` : ''}`, payload.new.body || 'You have a new care message.')
+      refresh()
+    }
+    const handleNotification = (payload: { new: { title?: string; message?: string; body?: string } }) => {
+      announce(payload.new.title || 'CareBridge update', payload.new.message || payload.new.body || 'You have a new care update.')
+      refresh()
+    }
     const ch = supabase
       .channel(`shell-${user.id}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `receiver_id=eq.${user.id}` }, refresh)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` }, refresh)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `receiver_id=eq.${user.id}` }, handleMessage)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` }, handleNotification)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages', filter: `receiver_id=eq.${user.id}` }, refresh)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` }, refresh)
       .subscribe()
     return () => {
       live = false
