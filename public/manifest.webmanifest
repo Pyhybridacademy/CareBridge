@@ -1,6 +1,6 @@
 {
-  "name": "CareConnect",
-  "short_name": "CareConnect",
+  "name": "CareBridge",
+  "short_name": "CareBridge",
   "description": "Nurses and patients connected through messages, voice notes and video notes.",
   "start_url": "/app",
   "scope": "/",
